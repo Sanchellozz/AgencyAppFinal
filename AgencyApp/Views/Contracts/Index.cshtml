@@ -1,0 +1,81 @@
+﻿@model X.PagedList.IPagedList<AgencyApp.Models.Contract>
+@using X.PagedList.Mvc.Core
+@using X.PagedList
+<link rel="stylesheet" href="~/css/PagedList.css" asp-append-version="true" />
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<h1>Договоры</h1>
+
+<p>
+    <a asp-action="Create">Создать</a>
+</p>
+@using (Html.BeginForm())
+{
+    <p>
+        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Поиск" />
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.ActionLink("Номер", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter=ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Дата заключения", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter=ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Пакет страхования", "Index", new { sortOrder = ViewBag.DicSortParm, currentFilter=ViewBag.CurrentFilter })
+            </th>
+            <th>
+                 @Html.ActionLink("Имя клиента", "Index", new { sortOrder = ViewBag.ClientNameSortParm, currentFilter=ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Имя агента", "Index", new { sortOrder = ViewBag.AgentNameSortParm, currentFilter=ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Цена", "Index", new { sortOrder = ViewBag.PriceSortParm, currentFilter=ViewBag.CurrentFilter })
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContractId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dictionary.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Client.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Agent.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dictionary.Price)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ContractId">Изменить</a> |
+                <a asp-action="Delete" asp-route-id="@item.ContractId">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", 
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+

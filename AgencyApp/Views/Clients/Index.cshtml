@@ -1,0 +1,59 @@
+﻿@model IEnumerable<AgencyApp.Models.Client>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Клиенты</h1>
+
+<p>
+    <a asp-action="Create">Создать</a>
+</p>
+@if (@User.IsInRole("agent")){
+@using (Html.BeginForm())
+{
+    <tr>
+    <td>
+        @Html.TextBox("SearchString")  
+        <input type="submit" value="Поиск" />
+    </td>
+    </tr>
+}
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Серия и номер паспорта
+            </th>
+            <th>
+                Лицо
+            </th>
+            <th>
+                Имя, фамилия, отчество
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Passport)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.License.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                    @if (@User.IsInRole("agent")) {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Изменить</a>
+                    }
+                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
