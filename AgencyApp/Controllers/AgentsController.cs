@@ -32,6 +32,7 @@ namespace AgencyApp.Controllers
             return View(await agents.ToListAsync());
         }
 
+        
         // GET: Agents/Details/5
         public async Task<IActionResult> Details(int? id)
         {

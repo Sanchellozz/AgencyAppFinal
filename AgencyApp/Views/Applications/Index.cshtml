@@ -5,6 +5,16 @@
 }
 
 <h1>Заявки</h1>
+@if (@User.IsInRole("agent")){
+@using (Html.BeginForm())
+{
+    <tr>
+    <td>
+        <input name="SearchString" type="submit" id="SearchString" value="Проблемные договоры" />
+    </td>
+    </tr>
+}
+}
 
 <p>
     <a asp-action="Create">Создать</a>

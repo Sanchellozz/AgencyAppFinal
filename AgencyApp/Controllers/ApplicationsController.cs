@@ -30,11 +30,16 @@ namespace AgencyApp.Controllers
 
         // GET: Applications
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
             if (@User.IsInRole("agent"))
             {
-                var agencyDBContext = _context.Application.Include(a => a.Client).Include(a => a.Dictionary);
+                var agencyDBContext = from s in _context.Application.Include(a => a.Client).Include(a => a.Dictionary)
+                select s;
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    agencyDBContext = agencyDBContext.Where(s => s.Status.Contains("Проблемный"));
+                }
                 return View(await agencyDBContext.ToListAsync());
             }
             else {
@@ -43,6 +48,9 @@ namespace AgencyApp.Controllers
                 var applicationsview = _context.Application.Include(a => a.Client).Include(a => a.Dictionary).Where(c => c.Client.UserID == userId);
                 return View(applicationsview);
             }
+            
+
+
         }
 
         // GET: Applications/Details/5

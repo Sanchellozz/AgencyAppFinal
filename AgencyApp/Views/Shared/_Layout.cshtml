@@ -28,7 +28,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Agents" asp-action="index">Агенты</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Licenses" asp-action="index">Лицензия</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Licenses" asp-action="index">Юр\Физ лица</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Degrees" asp-action="index">Должность</a>
@@ -46,7 +46,7 @@
                         @if (@User.IsInRole("agent"))
                         {
                         <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Contracts" asp-action="index">Договор</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Contracts" asp-action="index">Договоры</a>
                         </li>
                         }
                     </ul>
